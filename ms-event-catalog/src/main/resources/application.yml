@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: ms-event-catalog
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/iticket_catalog_db}
+    username: ${SPRING_DATASOURCE_USERNAME:iticket_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:iticket_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8081
