@@ -1,0 +1,22 @@
+dependencies {
+    // REST API və Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Database (JPA)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // Postgres
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Test
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
