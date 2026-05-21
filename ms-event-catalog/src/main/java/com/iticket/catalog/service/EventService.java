@@ -35,7 +35,7 @@ public class EventService {
         EventEntity savedEvent = eventRepository.save(eventEntity);
 
         venue.getSectors().forEach(sector -> {
-            BigDecimal price = request.getSectorPrices().get(sector.getId());
+            BigDecimal price = request.getPrices().get(sector.getId());
             if (price == null) {
                 throw new RuntimeException(sector.getName() + " not found");
             }

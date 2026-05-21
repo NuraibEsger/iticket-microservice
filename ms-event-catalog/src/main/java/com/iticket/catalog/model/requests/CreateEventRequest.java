@@ -12,5 +12,5 @@ public class CreateEventRequest {
     private String description;
     private LocalDateTime date;
     Long venueId;
-    Map<Long, BigDecimal> sectorPrices;
+    Map<Long, BigDecimal> prices;
 }
