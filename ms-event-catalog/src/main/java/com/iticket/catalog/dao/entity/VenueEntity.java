@@ -23,6 +23,9 @@ public class VenueEntity {
 
     private String address;
 
+    @Column(nullable = false)
+    private Integer capacity;
+
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<SectorEntity> sectors;
 
