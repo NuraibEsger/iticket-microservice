@@ -6,8 +6,13 @@ import com.iticket.catalog.dao.entity.VenueEntity;
 import com.iticket.catalog.dao.repository.EventRepository;
 import com.iticket.catalog.dao.repository.TicketPriceRepository;
 import com.iticket.catalog.dao.repository.VenueRepository;
+import com.iticket.catalog.mapper.EventMapper;
 import com.iticket.catalog.model.requests.CreateEventRequest;
+import com.iticket.catalog.model.responses.EventResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +24,7 @@ public class EventService {
     private final EventRepository eventRepository;
     private final VenueRepository venueRepository;
     private final TicketPriceRepository ticketPriceRepository;
+    private final EventMapper eventMapper;
 
     @Transactional
     public Long createEvent(CreateEventRequest request) {
@@ -50,5 +56,26 @@ public class EventService {
         });
 
         return savedEvent.getId();
+    }
+
+    public Page<EventResponse> findAll(Pageable pageable) {
+        var entities =  eventRepository.findAll(pageable);
+
+        return new PageImpl<>(eventMapper.toResponse(entities.getContent()), pageable, entities.getTotalElements());
+    }
+
+    public EventResponse findByVenueId(Long venueId) {
+        EventEntity event = eventRepository.findByVenueId(venueId)
+                .orElseThrow(() -> new RuntimeException("Venue not found with id " + venueId));
+
+        return eventMapper.toResponse(event);
+    }
+
+    public EventResponse findById(Long eventId) {
+
+        EventEntity event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new RuntimeException("Event not found with id " + eventId));
+
+        return eventMapper.toResponse(event);
     }
 }
