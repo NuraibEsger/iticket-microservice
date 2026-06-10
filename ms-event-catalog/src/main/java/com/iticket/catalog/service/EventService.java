@@ -7,8 +7,10 @@ import com.iticket.catalog.dao.repository.EventRepository;
 import com.iticket.catalog.dao.repository.TicketPriceRepository;
 import com.iticket.catalog.dao.repository.VenueRepository;
 import com.iticket.catalog.mapper.EventMapper;
+import com.iticket.catalog.model.event.EventCreatedEvent;
 import com.iticket.catalog.model.requests.CreateEventRequest;
 import com.iticket.catalog.model.responses.EventResponse;
+import com.iticket.catalog.service.messaging.KafkaProducerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +27,7 @@ public class EventService {
     private final VenueRepository venueRepository;
     private final TicketPriceRepository ticketPriceRepository;
     private final EventMapper eventMapper;
+    private final KafkaProducerService kafkaProducerService;
 
     @Transactional
     public Long createEvent(CreateEventRequest request) {
@@ -54,6 +57,15 @@ public class EventService {
 
             ticketPriceRepository.save(ticketPrice);
         });
+
+        EventCreatedEvent kafkaPayload = new EventCreatedEvent(
+                savedEvent.getId(),
+                savedEvent.getTitle(),
+                savedEvent.getEventDate(),
+                venue.getId()
+        );
+
+        kafkaProducerService.sendEventCreatedMessage(kafkaPayload);
 
         return savedEvent.getId();
     }

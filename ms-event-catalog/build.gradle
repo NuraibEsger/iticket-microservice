@@ -18,6 +18,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.21.2'
 
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
     // Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
