@@ -22,6 +22,12 @@ jwt:
   access-token-expiration: 15
   refresh-token-expiration: 1440
 
+app:
+  seed:
+    admin:
+      username: admin
+      email: admin@iticket.com
+      password: Admin@123!
 
 server:
   port: 9091
